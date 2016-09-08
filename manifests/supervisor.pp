@@ -1,10 +1,10 @@
 class sc_mysql::supervisor(){
 
-  include supervisord
+  include sc_supervisor
 
   file { '/etc/init.d/mysql':
     ensure => link,
-    target => '/etc/supervisor.init/supervisor-init-wrapper',
+    target => "${sc_supervisor::init_path}/supervisor-init-wrapper",
   }
 
   file { "${supervisord::config_include}/mysql.conf":
