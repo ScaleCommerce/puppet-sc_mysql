@@ -1,5 +1,5 @@
 {
-  "name": "scalecommerce-dummy",
+  "name": "scalecommerce-sc_mysql",
   "version": "0.1.0",
   "author": "scalecommerce",
   "summary": "Helps a lot! ;-)",
@@ -8,7 +8,8 @@
   "project_page": null,
   "issues_url": null,
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name": "puppetlabs-mysql"}
   ]
 }
 

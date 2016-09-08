@@ -33,9 +33,11 @@
 #
 # === Copyright
 #
-# Copyright 2016 Your name here, unless otherwise noted.
+# Copyright 2016 ScaleCommerce GmbH
 #
-class dummy {
+class sc_mysql {
 
-
+  include mysql::server
+  Package <| |> -> Class['Mysql::Server']
+  create_resources('::mysql::db', hiera_hash('mysql::databases', {}))
 }
