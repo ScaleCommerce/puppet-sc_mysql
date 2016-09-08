@@ -29,24 +29,9 @@ class sc_mysql(
 ) {
 
   if $use_supervisor {
-    # supervisor
-    file { '/etc/init.d/mysql':
-      ensure => link,
-      target => '/etc/supervisor.init/supervisor-init-wrapper',
-    }
 
-    file { '/etc/supervisor.d/mysql.conf':
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template("${module_name}/mysql.supervisor.conf.erb"),
-      notify  => Exec['supervisorctl_mysql_update'],
-    }->
+    class {'::sc_mysql::supervisor':}
 
-    exec { 'supervisorctl_mysql_update':
-      command     => '/usr/bin/supervisorctl update',
-      refreshonly => true,
-    }
   }
 
   include mysql::server
