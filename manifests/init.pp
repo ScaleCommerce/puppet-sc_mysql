@@ -1,6 +1,6 @@
-# == Class: dummy
+# == Class: sc_mysql
 #
-# Full description of class dummy here.
+# Module to install MySQL the ScaleCommerce way.
 #
 # === Parameters
 #
@@ -29,7 +29,7 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# ScaleCommerce <info@scale.sc>
 #
 # === Copyright
 #
