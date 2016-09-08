@@ -2,24 +2,13 @@
 #
 # Full description of class dummy here.
 #
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
 # === Variables
 #
 # Here you should define a list of variables that this module would require.
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*use_supervisor*]
+#   can be true or false, default is true.
+#   determines if start script should be used with supervisor
 #
 # === Examples
 #
@@ -35,7 +24,30 @@
 #
 # Copyright 2016 ScaleCommerce GmbH
 #
-class sc_mysql {
+class sc_mysql(
+  $use_supervisor = true,
+) {
+
+  if $use_supervisor {
+    # supervisor
+    file { '/etc/init.d/mysql':
+      ensure => link,
+      target => '/etc/supervisor.init/supervisor-init-wrapper',
+    }
+
+    file { '/etc/supervisor.d/mysql.conf':
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template("${module_name}/mysql.supervisor.conf.erb"),
+      notify  => Exec['supervisorctl_mysql_update'],
+    }->
+
+    exec { 'supervisorctl_mysql_update':
+      command     => '/usr/bin/supervisorctl update',
+      refreshonly => true,
+    }
+  }
 
   include mysql::server
   Package <| |> -> Class['Mysql::Server']
