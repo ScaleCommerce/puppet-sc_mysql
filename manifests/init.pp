@@ -26,6 +26,7 @@
 #
 class sc_mysql(
   $use_supervisor = true,
+  $databases = undef,
 ) {
 
   if $use_supervisor {
@@ -36,5 +37,5 @@ class sc_mysql(
 
   include mysql::server
   Package <| |> -> Class['Mysql::Server']
-  create_resources('::mysql::db', hiera_hash('mysql::databases', {}))
+  create_resources('::mysql::db',$databases)
 }
