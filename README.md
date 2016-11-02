@@ -33,6 +33,7 @@ class { 'sc_mysql':
 }
 ```
 hiera example:
+```
 sc_mysql::databases:
   database1_name:
     user:     'user'
