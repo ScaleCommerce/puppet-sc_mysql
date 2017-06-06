@@ -23,7 +23,7 @@ class sc_mysql::supervisor(
     mode    => '0644',
     content => template("${module_name}/mysql-backup-instance.supervisor.conf.erb"),
     notify  => Class[supervisord::reload],
-  }
+  }~>
 
   exec {'supervisorctl_mysql_update':
     command     => "${supervisor_exec_path}/supervisorctl update",
