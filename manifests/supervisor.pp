@@ -1,4 +1,6 @@
-class sc_mysql::supervisor(){
+class sc_mysql::supervisor(
+  $supervisor_exec_path   = '/usr/local/bin',
+){
 
   include sc_supervisor
 
@@ -21,5 +23,10 @@ class sc_mysql::supervisor(){
     mode    => '0644',
     content => template("${module_name}/mysql-backup-instance.supervisor.conf.erb"),
     notify  => Class[supervisord::reload],
+  }
+
+  exec {'supervisorctl_mysql_update':
+    command     => "${supervisor_exec_path}/supervisorctl update",
+    refreshonly => true,
   }
 }
