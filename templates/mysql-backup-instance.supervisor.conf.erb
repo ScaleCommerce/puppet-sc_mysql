@@ -1,5 +1,0 @@
-[program:mysql-backup-instance]
-command=/usr/sbin/mysqld --user=mysql --socket=/var/run/mysqld/mysqldbackup.sock --pid-file=/var/run/mysqld/mysqldbackup.pid --datadir=/home/sc_backups/xtrabackup --log-error=/var/log/mysql/mysqldbackup-error.log --skip-networking=1 --innodb-buffer-pool-size=0 --key_buffer_size=0 --read-only --log-bin="" --max_slowlog_size=0 --slow_query_log=0 --explicit_defaults_for_timestamp
-autostart=false
-autorestart=false
-stopwaitsecs=60
