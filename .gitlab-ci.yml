@@ -1,0 +1,16 @@
+image: scalecommerce/base:0.6
+
+test:sc_mysql:mysql-5.6:ubuntu-14.04:
+  script:
+  - ./test/install.sh
+  - mv ./test/hiera/module-mysql56.yaml  ./test/hiera/module.yaml
+  - puppet apply -v test/site.pp
+  - inspec exec test/inspec/sc_mysql.rb
+
+test:sc_mysql:mysql-5.7:ubuntu-14.04:
+  script:
+  - ./test/install.sh
+  - mv ./test/hiera/module-mysql57.yaml  ./test/hiera/module.yaml
+  - puppet apply -v test/site.pp
+  - inspec exec test/inspec/sc_mysql.rb
+

@@ -1,0 +1,7 @@
+backends:
+ - yaml
+:yaml:
+ :datadir: /builds/sc-puppet/puppet-sc_mysql/test/hiera
+:hierarchy:
+ - global
+ - module
