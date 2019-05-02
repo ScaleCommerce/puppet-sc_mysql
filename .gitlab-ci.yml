@@ -1,18 +1,30 @@
-image: scalecommerce/xenial:1.19
+variables:
+  SCIMAGE: scalecommerce/xenial:1.19
 
-test:sc_mysql:mysql-5.6:ubuntu-16.04:
-  script:
-  - ./test/install.sh
-  - mv ./test/hiera/module-mysql56.yaml  ./test/hiera/module.yaml
-  - puppet apply -v test/site.pp
-  - supervisorctl update
-  - puppet apply -v test/site.pp
-  - inspec exec test/inspec/sc_mysql.rb
+stages:
+  - Puppet 5
+  - Puppet 6
 
-test:sc_mysql:mysql-5.7:ubuntu-16.04:
+16.04:sc_mysql:mysql-5.6:puppet5:
+  stage: Puppet 5
+  image: $SCIMAGE
   script:
-  - ./test/install.sh
-  - mv ./test/hiera/module-mysql57.yaml  ./test/hiera/module.yaml
-  - puppet apply -v test/site.pp
-  - inspec exec test/inspec/sc_mysql.rb
+    - ./test/install-puppet5.sh
+    - ./test/install.sh
+    - export PATH=/opt/puppetlabs/bin:$PATH
+    - mv ./test/hiera/module-mysql56.yaml  ./test/hiera/module.yaml
+    - puppet apply -v test/site.pp
+    - supervisorctl update
+    - puppet apply -v test/site.pp
+    - inspec exec test/inspec/sc_mysql.rb
+
+16.04:sc_mysql:mysql-5.7:puppet5:
+  stage: Puppet 5
+  script:
+    - ./test/install-puppet5.sh
+    - ./test/install.sh
+    - export PATH=/opt/puppetlabs/bin:$PATH
+    - mv ./test/hiera/module-mysql57.yaml  ./test/hiera/module.yaml
+    - puppet apply -v test/site.pp
+    - inspec exec test/inspec/sc_mysql.rb
 
