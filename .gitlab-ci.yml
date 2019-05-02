@@ -1,5 +1,5 @@
 variables:
-  SCIMAGE: scalecommerce/xenial:1.19
+  SCIMAGE: scalecommerce/xenial:1.17
 
 stages:
   - Puppet 5
