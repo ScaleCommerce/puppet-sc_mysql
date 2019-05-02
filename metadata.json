@@ -1,6 +1,6 @@
 {
   "name": "scalecommerce-sc_mysql",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "ScaleCommerce",
   "summary": "ScaleCommerce MySQL module",
   "license": "Apache 2.0",
