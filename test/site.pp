@@ -1,10 +1,5 @@
 hiera_include('classes')
 
-Class['apt::update'] -> Package <| |>
-Apt::Key <| |> -> Package <| |>
-Apt::Source <| |> -> Package <| |>
-Apt::Ppa <| |> -> Package <| |>
-
 # resource wrapper
 $files=hiera_hash('files', {})
 create_resources(file, $files)
