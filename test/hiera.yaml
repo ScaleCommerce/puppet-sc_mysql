@@ -1,7 +1,7 @@
 ---
 version: 5
 defaults:
- datadir: /builds/sc-puppet/puppet-sc_nginx/test/hiera
+ datadir: /builds/sc-puppet/puppet-sc_mysql/test/hiera
  data_hash: yaml_data
 
 hierarchy:
