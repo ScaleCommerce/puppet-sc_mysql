@@ -70,8 +70,8 @@ sudo chmod +x /usr/local/bin/gitlab-ci-multi-runner-sc
 
 ```bash
 # mysql 5.6
-gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory test:sc_mysql:mysql-5.6:ubuntu-14.04
+gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory 16.04:sc_mysql:mysql-5.6:puppet5
 
 # mysql 5.7
-gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory test:sc_mysql:mysql-5.7:ubuntu-14.04
+gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory 16.04:sc_mysql:mysql-5.7:puppet5
 ```
