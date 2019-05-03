@@ -3,6 +3,7 @@ variables:
 
 stages:
   - Puppet 5
+#  - push2github
 
 before_script:
   - apt-get update >/dev/null
@@ -36,3 +37,7 @@ before_script:
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
 
+#push2github:
+#  stage: push2github
+#  script:
+#    - git push --quiet --mirror https://$GITHUB_TOKEN@github.com/ScaleCommerce/puppet-sc_mysql.git
