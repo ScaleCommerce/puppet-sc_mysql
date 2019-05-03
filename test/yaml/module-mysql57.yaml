@@ -7,14 +7,14 @@ mysql::server::root_password: inspec_root_password
 #                                                             #
 ###############################################################
 sc_mysql::databases:
-  test_live_database:
+  live_database:
     user:     'live_user'
     password: 'live_password'
     host:     '%'
     grant:    ['All']
     charset:  'utf8'
     collate:  'utf8_general_ci'
-  test_stage_database:
+  stage_database:
     user:     'stage_user'
     password: 'stage_password'
     host:     '%'
@@ -85,7 +85,7 @@ mysql::server::remove_default_accounts: true
 mysql::server::restart: true
 mysql::server::override_options:
   mysqld:
-    'server_id': "%{hiera('sc::mysql::server_id')}"
+    'server_id': "1"
     'key_buffer_size': '100M'
     'bind_address': '*'
     'skip_name_resolve': 'ON'
@@ -121,8 +121,6 @@ mysql::server::override_options:
     'max_slowlog_size': '4G'
     'max_slowlog_files': '1'
     'log_slow_verbosity': 'full'
-    'slow_query_log_timestamp_precision': 'microsecond'
-    'slow_query_log_timestamp_always': 'ON'
     'collation-server': 'utf8_general_ci'
     'character-set-server': 'utf8'
 
