@@ -3,7 +3,6 @@ variables:
 
 stages:
   - Puppet 5
-  - Puppet 6
 
 before_script:
   - apt-get update >/dev/null
@@ -11,7 +10,7 @@ before_script:
 .job_template: &full_test
   script:
     - ./test/install-$PUPPET_VERSION.sh
-      - ./test/install.sh
+    - ./test/install.sh
     - export PATH=/opt/puppetlabs/bin:$PATH
     - cp ./test/yaml/module-$MYSQL_VERSION.yaml  ./test/hieradata/module.yaml
     - puppet apply -v test/site.pp
