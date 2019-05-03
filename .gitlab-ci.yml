@@ -3,6 +3,7 @@ variables:
 
 stages:
   - Puppet 5
+  - Puppet 6
 #  - push2github
 
 before_script:
@@ -36,6 +37,56 @@ before_script:
     MYSQL_VERSION: 'mysql57'
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
+
+18.04:sc_mysql:mysql-5.6:puppet5:
+  stage: Puppet 5
+  image: scalecommerce/bionic:1.0
+  variables:
+    MYSQL_VERSION: 'mysql56'
+    PUPPET_VERSION: 'puppet5'
+  <<: *full_test
+
+18.04:sc_mysql:mysql-5.7:puppet5:
+  stage: Puppet 5
+  image: scalecommerce/bionic:1.0
+  variables:
+    MYSQL_VERSION: 'mysql57'
+    PUPPET_VERSION: 'puppet5'
+  <<: *full_test
+
+16.04:sc_mysql:mysql-5.6:puppet6:
+  stage: Puppet 6
+  image: $SCIMAGE
+  variables:
+    MYSQL_VERSION: 'mysql56'
+    PUPPET_VERSION: 'puppet6'
+  <<: *full_test
+
+16.04:sc_mysql:mysql-5.7:puppet6:
+  stage: Puppet 6
+  image: $SCIMAGE
+  variables:
+    MYSQL_VERSION: 'mysql57'
+    PUPPET_VERSION: 'puppet6'
+  <<: *full_test
+
+18.04:sc_mysql:mysql-5.6:puppet6:
+  stage: Puppet 6
+  image: scalecommerce/bionic:1.0
+  variables:
+    MYSQL_VERSION: 'mysql56'
+    PUPPET_VERSION: 'puppet6'
+  <<: *full_test
+
+18.04:sc_mysql:mysql-5.7:puppet6:
+  stage: Puppet 6
+  image: scalecommerce/bionic:1.0
+  variables:
+    MYSQL_VERSION: 'mysql57'
+    PUPPET_VERSION: 'puppet6'
+  <<: *full_test
+
+
 
 #push2github:
 #  stage: push2github
