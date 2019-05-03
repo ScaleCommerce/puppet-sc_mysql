@@ -8,14 +8,10 @@ stages:
 before_script:
   - apt-get update >/dev/null
 
-16.04:sc_mysql:mysql-5.6:puppet5:
-  stage: Puppet 5
-  image: $SCIMAGE
-  variables:
-    MYSQL_VERSION: 'mysql56'
+.job_template: &full_test
   script:
-    - ./test/install-puppet5.sh
-    - ./test/install.sh
+    - ./test/install-$PUPPET_VERSION.sh
+      - ./test/install.sh
     - export PATH=/opt/puppetlabs/bin:$PATH
     - cp ./test/yaml/module-$MYSQL_VERSION.yaml  ./test/hieradata/module.yaml
     - puppet apply -v test/site.pp
@@ -24,18 +20,20 @@ before_script:
     - inspec exec test/inspec/sc_mysql.rb
     - rm ./test/hieradata/module.yaml
 
+16.04:sc_mysql:mysql-5.6:puppet5:
+  stage: Puppet 5
+  image: $SCIMAGE
+  variables:
+    MYSQL_VERSION: 'mysql56'
+    PUPPET_VERSION: 'puppet5'
+  <<: *full_test
+
 
 16.04:sc_mysql:mysql-5.7:puppet5:
   stage: Puppet 5
   image: $SCIMAGE
   variables:
     MYSQL_VERSION: 'mysql57'
-  script:
-    - ./test/install-puppet5.sh
-    - ./test/install.sh
-    - export PATH=/opt/puppetlabs/bin:$PATH
-    - cp ./test/yaml/module-$MYSQL_VERSION.yaml  ./test/hieradata/module.yaml
-    - puppet apply -v test/site.pp
-    - inspec exec test/inspec/sc_mysql.rb
-    - rm ./test/hieradata/module.yaml
+    PUPPET_VERSION: 'puppet5'
+  <<: *full_test
 
