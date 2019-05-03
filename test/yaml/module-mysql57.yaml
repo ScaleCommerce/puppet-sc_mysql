@@ -8,15 +8,15 @@ mysql::server::root_password: inspec_root_password
 ###############################################################
 sc_mysql::databases:
   test_live_database:
-    user:     'test_live_user'
-    password: 'test_live_password'
+    user:     'live_user'
+    password: 'live_password'
     host:     '%'
     grant:    ['All']
     charset:  'utf8'
     collate:  'utf8_general_ci'
   test_stage_database:
-    user:     'test_stage_user'
-    password: 'test_stage_password'
+    user:     'stage_user'
+    password: 'stage_password'
     host:     '%'
     grant:    ['All']
     charset:  'utf8'
@@ -55,17 +55,29 @@ apt::sources:
     repos: 'main'
     key:
       id: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
-      server: 'keys.gnupg.net'
+      server: 'keyserver.ubuntu.com'
 
-packages::first:
-  'percona-server-server-5.6':
+packages:
+  percona-server-server-5.7:
     ensure: installed
-  'percona-server-client-5.6':
+    require:
+      - Apt::Source[percona]
+      - Class[Apt::Update]
+  percona-server-client-5.7:
     ensure: installed
-  'percona-toolkit':
+    require:
+      - Apt::Source[percona]
+      - Class[Apt::Update]
+  percona-toolkit:
     ensure: installed
-  'percona-xtrabackup-24':
+    require:
+      - Apt::Source[percona]
+      - Class[Apt::Update]
+  percona-xtrabackup-24:
     ensure: installed
+    require:
+      - Apt::Source[percona]
+      - Class[Apt::Update]
 
 mysql::server::package_manage: false
 mysql::client::package_manage: false
@@ -73,7 +85,7 @@ mysql::server::remove_default_accounts: true
 mysql::server::restart: true
 mysql::server::override_options:
   mysqld:
-    'server_id': "1"
+    'server_id': "%{hiera('sc::mysql::server_id')}"
     'key_buffer_size': '100M'
     'bind_address': '*'
     'skip_name_resolve': 'ON'

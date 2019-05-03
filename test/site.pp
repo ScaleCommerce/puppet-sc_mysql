@@ -1,5 +1,9 @@
 hiera_include('classes')
 
+Service <| title == "mysqld" |> {
+  provider => supervisor,
+}
+
 # resource wrapper
 $files=hiera_hash('files', {})
 create_resources(file, $files)

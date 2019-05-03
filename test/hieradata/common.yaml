@@ -1,0 +1,4 @@
+---
+classes:
+  - supervisord
+  - sc_supervisor

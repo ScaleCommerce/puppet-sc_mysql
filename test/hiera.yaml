@@ -1,13 +1,8 @@
----
-version: 5
-defaults:
- datadir: /builds/sc-puppet/puppet-sc_mysql/test/hiera
- data_hash: yaml_data
-
-hierarchy:
- - name: Override Data
-   path: override.yaml
- - name: Modul Data
-   path: module.yaml
- - name: Common Data
-   path: common.yaml
+backends:
+  - yaml
+:yaml:
+  :datadir: "%{settings::confdir}/hieradata"
+:hierarchy:
+  - override
+  - module
+  - common
