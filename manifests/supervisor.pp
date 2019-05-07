@@ -8,12 +8,29 @@ class sc_mysql::supervisor(
     ensure => absent,
   }
 
+  /**
+   * to maintain backwards compatibility [1] and avoid uneccessary restarts of
+   * mysql we fixate the content of the mysql supervisor config
+   * - define supervisord::program
+   * - remove old supervisorconfig file
+   * - change content of the supervisord::program resource
+   *
+   * [1] https://gitlab.scale.sc/sc-puppet/puppet-sc_mysql/blob/022615369ea78fc6eac52f67abd76eb75b680630/manifests/supervisor.pp#L12-18
+   */
   supervisord::program { 'mysql':
-    command     => '/bin/bash -c "mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && exec /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --user=mysql --skip-log-error --socket=/var/run/mysqld/mysqld.sock --port=3306"',
-    autostart   => true,
-    autorestart => true,
+    command     => '/placeholder',
     require     => Class['Mysql::Server::Config'],
     before      => Service['mysql'],
+  }
+
+  file { "${supervisord::config_include}/mysql.conf":
+    ensure  => absent,
+    notify  => Class['supervisord::reload'],
+  }
+
+  File <| title == "/etc/supervisor.d/program_mysql.conf" |> {
+    source  => "puppet:///modules/sc_mysql/supervisor.d/mysql.conf",
+    content => undef,
   }
 
   # override default service provider
