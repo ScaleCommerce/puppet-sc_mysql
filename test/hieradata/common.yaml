@@ -2,3 +2,7 @@
 classes:
   - supervisord
   - sc_supervisor
+
+supervisord::service_manage: false
+supervisord::nodaemon: true
+supervisord::run_path: /dev/shm

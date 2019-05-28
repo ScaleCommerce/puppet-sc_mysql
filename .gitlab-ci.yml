@@ -1,10 +1,10 @@
 variables:
-  SCIMAGE: scalecommerce/xenial:1.17
+  SCIMAGE: scalecommerce/xenial:1.20
 
 stages:
   - Puppet 5
   - Puppet 6
-#  - push2github
+  - push2github
 
 before_script:
   - apt-get update >/dev/null
@@ -14,9 +14,8 @@ before_script:
     - ./test/install-$PUPPET_VERSION.sh
     - ./test/install.sh
     - export PATH=/opt/puppetlabs/bin:$PATH
-    - cp ./test/yaml/module-$MYSQL_VERSION.yaml  ./test/hieradata/module.yaml
-    - puppet apply -v test/site.pp
-    - supervisorctl update
+    - cp ./test/yaml/module-mysql$MYSQL_VERSION.yaml  ./test/hieradata/module.yaml
+    - sed -i -r -e "s/should match \/\^.*\//should match \/\^$MYSQL_VERSION\//g" ./test/inspec/sc_mysql.rb
     - puppet apply -v test/site.pp
     - inspec exec test/inspec/sc_mysql.rb
     - rm ./test/hieradata/module.yaml
@@ -25,32 +24,31 @@ before_script:
   stage: Puppet 5
   image: $SCIMAGE
   variables:
-    MYSQL_VERSION: 'mysql56'
+    MYSQL_VERSION: '5.6'
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
-
 
 16.04:sc_mysql:mysql-5.7:puppet5:
   stage: Puppet 5
   image: $SCIMAGE
   variables:
-    MYSQL_VERSION: 'mysql57'
+    MYSQL_VERSION: '5.7'
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
 
 18.04:sc_mysql:mysql-5.6:puppet5:
   stage: Puppet 5
-  image: scalecommerce/bionic:1.0
+  image: scalecommerce/bionic:1.2
   variables:
-    MYSQL_VERSION: 'mysql56'
+    MYSQL_VERSION: '5.6'
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
 
 18.04:sc_mysql:mysql-5.7:puppet5:
   stage: Puppet 5
-  image: scalecommerce/bionic:1.0
+  image: scalecommerce/bionic:1.2
   variables:
-    MYSQL_VERSION: 'mysql57'
+    MYSQL_VERSION: '5.7'
     PUPPET_VERSION: 'puppet5'
   <<: *full_test
 
@@ -58,7 +56,7 @@ before_script:
   stage: Puppet 6
   image: $SCIMAGE
   variables:
-    MYSQL_VERSION: 'mysql56'
+    MYSQL_VERSION: '5.6'
     PUPPET_VERSION: 'puppet6'
   <<: *full_test
 
@@ -66,29 +64,29 @@ before_script:
   stage: Puppet 6
   image: $SCIMAGE
   variables:
-    MYSQL_VERSION: 'mysql57'
+    MYSQL_VERSION: '5.7'
     PUPPET_VERSION: 'puppet6'
   <<: *full_test
 
 18.04:sc_mysql:mysql-5.6:puppet6:
   stage: Puppet 6
-  image: scalecommerce/bionic:1.0
+  image: scalecommerce/bionic:1.2
   variables:
-    MYSQL_VERSION: 'mysql56'
+    MYSQL_VERSION: '5.6'
     PUPPET_VERSION: 'puppet6'
   <<: *full_test
 
 18.04:sc_mysql:mysql-5.7:puppet6:
   stage: Puppet 6
-  image: scalecommerce/bionic:1.0
+  image: scalecommerce/bionic:1.2
   variables:
-    MYSQL_VERSION: 'mysql57'
+    MYSQL_VERSION: '5.7'
     PUPPET_VERSION: 'puppet6'
   <<: *full_test
 
 
 
-#push2github:
-#  stage: push2github
-#  script:
-#    - git push --quiet --mirror https://$GITHUB_TOKEN@github.com/ScaleCommerce/puppet-sc_mysql.git
+push2github:
+  stage: push2github
+  script:
+    - git push --quiet --mirror https://$GITHUB_TOKEN@github.com/ScaleCommerce/puppet-sc_mysql.git

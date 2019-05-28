@@ -19,13 +19,13 @@ This wrapper module adds 2 functions to the puppetlabs-mysql module which are ne
 === Examples
 ```
 class { 'sc_mysql':
-  databases => [ 
+  databases => [
     database1_name => {
       user => 'username',
       password => 'password',
       host => 'host',
       ...
-    }, 
+    },
     database2_name => {
       ...
     }
@@ -54,25 +54,12 @@ Configuration testing is done with `InSpec`: https://www.inspec.io/
 
 ### Local testing
 
-To test changes before committing them, you can execute the gitlab runner locally.
-Unfortunately the official gitlab-runner does not support local testing (according feature request: https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1359). So we need a custom binary:
-
-1. install docker
-
-1. download gitlab-runner binary
-
-```bash
-sudo curl --output /usr/local/bin/gitlab-ci-multi-runner-sc https://gitlab.scale.sc/a.kirchner/gitlab-ci-multi-runner-sc/raw/master/bin/gitlab-ci-multi-runner-sc
-sudo chmod +x /usr/local/bin/gitlab-ci-multi-runner-sc
-```
-
-1. execute in your working copy
+When making changes you can test this module locally with [gitlab-runner on Mac OSX](https://docs.gitlab.com/runner/install/osx.html)
 
 ```bash
 # mysql 5.6
-#gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory 16.04:sc_mysql:mysql-5.6:puppet5
 gitlab-runner exec docker --env "GIT_STRATEGY=none" --docker-volumes `pwd`:/builds/project-0 16.04:sc_mysql:mysql-5.6:puppet5
 
 # mysql 5.7
-gitlab-ci-multi-runner-sc exec docker --docker-volumes `pwd`:/tmp/local-working-directory 16.04:sc_mysql:mysql-5.7:puppet5
+gitlab-runner exec docker --env "GIT_STRATEGY=none" --docker-volumes `pwd`:/builds/project-0 16.04:sc_mysql:mysql-5.7:puppet5
 ```
