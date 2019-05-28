@@ -6,6 +6,7 @@ class sc_mysql::supervisor(
 
   file { '/etc/init.d/mysql':
     ensure => absent,
+    require => Supervisord::Program['mysql'],
   }
 
   supervisord::program { 'mysql':
